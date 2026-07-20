@@ -6,9 +6,10 @@ pbip-model-forge
    not to TMDL being hard to hand-author (see
    _kit/claude-skill-archetype-notes.md, the one framing rule).
 
-.. Deliberately no reference or explanation page here. That quadrant's
-   content already exists, and belongs, one project over, in
-   tmdl-preflight-documentation. Do not duplicate it here.
+.. Reference and explanation here stay narrow: just the two Claude Code
+   skills and the ontology concept behind them. The deeper TMDL rule-catalog
+   reference and explanation content still belongs one project over, in
+   tmdl-preflight-documentation - do not duplicate it here.
 
 .. toctree::
    :maxdepth: 1
@@ -16,3 +17,7 @@ pbip-model-forge
    tutorials/getting-started
    how-to/build-a-line-and-clustered-column-chart
    how-to/build-a-drill-down-matrix
+   reference/skills
+   explanation/ontology-basics
+   explanation/expanding-an-ontology
+   contributing
