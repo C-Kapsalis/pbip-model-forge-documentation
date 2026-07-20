@@ -14,6 +14,7 @@ A domain expert who wants a new data model today has one real option:
 describe it to a data team and wait. The request joins a ticket
 queue, gets interpreted secondhand, and comes back days or weeks
 later, sometimes shaped nothing like what was actually meant.
+
 pbip-model-forge collapses that first pass into a conversation.
 Describe the domain, and two Claude Code skills design a model,
 populate it with believable sample data, and confirm it opens cleanly,
@@ -30,8 +31,10 @@ in place of a ticket they have to reverse-engineer.
 
 Every model these skills produce is checked against ``tmdl-preflight``,
 a validation tool that confirms a model is structurally sound before
-you ever see it. That happens automatically, inside the conversation;
-there is nothing to install, run, or configure yourself.
+you ever see it. It needs to be installed once, alongside this
+project; from there, checking a model is automatic and happens inside
+the conversation. You never run it yourself or read its output
+directly.
 
 .. toctree::
    :maxdepth: 1
