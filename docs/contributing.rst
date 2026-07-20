@@ -5,7 +5,7 @@ This page is for contributors extending pbip-model-forge itself or its two
 Claude Code skills - people comfortable editing TMDL directly and modifying a
 `SKILL.md` file. For development setup, running the test suite, and pull
 request conventions, see `CONTRIBUTING.md
-<https://github.com/C-Kapsalis/pbip-model-forge/blob/main/CONTRIBUTING.md>`_ in
+<https://github.com/C-Kapsalis/pbip-model-forge/blob/master/CONTRIBUTING.md>`_ in
 the repository root; this page covers the concepts behind the code instead.
 
 The pipeline
