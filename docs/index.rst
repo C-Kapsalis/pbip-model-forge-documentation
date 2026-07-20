@@ -40,9 +40,7 @@ directly.
    :maxdepth: 1
 
    tutorials/getting-started
-   how-to/build-a-model-from-a-prompt
-   how-to/build-a-line-and-clustered-column-chart
-   how-to/build-a-drill-down-matrix
+   how-to-guides
    reference/skills
    topic-guides
    contributing

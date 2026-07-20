@@ -10,18 +10,19 @@ This continues on the hospital model from
 starting.
 
 #. Select the *matrix* visual from the **Visualizations** pane.
-#. Drag a hierarchy of columns, such as *Department* then *Physician* from
-   the Departments and Physicians tables, to the **rows** field well,
-   ordered from broadest to narrowest.
-#. Drag a numeric measure, such as *Total Charges*, to the **values** field
-   well.
+#. Drag *department_name*, from the Departments table, to the **rows**
+   field well.
+#. Drag *company_name*, from the InsuranceCompanies table, to the **rows**
+   field well too, beneath *department_name*, so it becomes the
+   drill-down level.
+#. Drag *Total Billed Revenue* and *Avg Billed per Patient*, both from
+   Clinic Measures, to the **values** field well.
 #. Select the visual, then use the drill-down arrows in its header to move
-   between levels, or double-click a row to expand it.
+   between levels, or select the expand icon next to a department to show
+   its insurers.
 
-.. Screenshot to take: the finished matrix in Power BI Desktop, showing
-   department rows expanded to individual physicians, with Total
-   Charges as the value column. Save as
-   docs/_static/screenshots/hospital-drill-down-matrix.png.
+.. figure:: /_static/screenshots/hospital-drill-down-matrix.png
+   :alt: A matrix with department_name rows, each expanded to show the insurance companies billed within it, and two value columns, Total Billed Revenue and Avg Billed per Patient. Cardiology totals $109,800.00 revenue ($91,300.00 of it Medicare), Orthopedics $58,500.00, Internal Medicine $12,000.00, Pediatrics $11,100.00, and Emergency $11,800.00. The grand total row reads $203,200.00 in revenue and $33,866.67 average billed per patient.
 
-.. image:: /_static/screenshots/hospital-drill-down-matrix.png
-   :alt: A drill-down matrix built from the hospital model, with Department rows expanded into individual Physician rows and Total Charges as the value column.
+   Revenue by department, drilled down into the insurance company
+   billed within each one.

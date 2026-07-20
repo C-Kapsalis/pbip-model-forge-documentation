@@ -23,8 +23,8 @@ Then grow it, describing what is missing the same way:
     relating it to relevant existing entities
 
 The model comes back updated: a new table for the insurer, a
-relationship into the existing admissions, and one or two new
-measures, re-validated the same way the original build was.
+relationship into the existing patient encounters, and a handful of
+new measures, re-validated the same way the original build was.
 
 Other prompts that work the same way
 ------------------------------------------
@@ -41,13 +41,11 @@ with its own believable sample rows.
 The result, opened in Power BI Desktop
 --------------------------------------------
 
-.. Screenshot to take: the hospital model above, opened in Power BI
-   Desktop, showing the model/diagram view with its tables and
-   relationships visible. Save as
-   docs/_static/screenshots/hospital-model-open.png.
+.. figure:: /_static/screenshots/hospital-model-open.png
+   :alt: The generated hospital data model open in Power BI Desktop's model view. Departments, Physicians, Diagnoses, and Patients each connect into the hidden Encounters fact table; Patients also connects to InsuranceCompanies; a Calendar table connects by date. A Clinic Measures table lists Total Billed Revenue, Avg Billed per Encounter, Avg Billed per Patient, Avg Length of Stay, Encounters #, Insured Patients #, Revenue Share by Insurer, and Total Patient Days.
 
-.. image:: /_static/screenshots/hospital-model-open.png
-   :alt: The generated hospital data model open in Power BI Desktop's model view, showing the fact table and its dimension tables connected by relationships.
+   The generated hospital model, every table already connected and the
+   insurance company entity in place.
 
 Where to go next
 --------------------

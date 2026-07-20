@@ -12,19 +12,15 @@ starting.
 
 #. On the report canvas, select the *line and clustered column chart* visual
    from the **Visualizations** pane.
-#. Drag a date column, such as *Admit Date* from the Admissions table, to the
-   **X-axis** field well.
-#. Drag a numeric measure, such as *Total Charges*, to the **column values**
-   field well.
-#. Drag a second measure, such as *Average Charge Amount*, to the **line
-   values** field well.
+#. Drag *Date* from the Calendar table to the **X-axis** field well.
+#. Drag *Total Billed Revenue*, from the Clinic Measures table, to the
+   **column values** field well.
+#. Drag *Avg Billed per Patient* to the **line values** field well.
 #. Select the visual, open the **Format** pane, and give it a descriptive
    title.
 
-.. Screenshot to take: the finished chart in Power BI Desktop, with
-   admissions charges as columns and the average charge as a line over
-   time. Save as
-   docs/_static/screenshots/hospital-line-and-column-chart.png.
+.. figure:: /_static/screenshots/hospital-line-and-column-chart.png
+   :alt: A line and clustered column chart titled "Total Billed Revenue and Avg Billed per Patient by Date." Monthly columns for Total Billed Revenue range from about $3K to $42K across 2024 and into mid-2025, with a July 2024 peak of $42K; a line for Avg Billed per Patient tracks a much smaller range, mostly under $10K, moving independently of the columns.
 
-.. image:: /_static/screenshots/hospital-line-and-column-chart.png
-   :alt: A line and clustered column chart built from the hospital model, showing Total Charges as columns and Average Charge Amount as a line, both plotted by Admit Date.
+   Total Billed Revenue and Avg Billed per Patient, plotted by month
+   across the hospital's encounter history.

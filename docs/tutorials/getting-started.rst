@@ -78,14 +78,11 @@ Desktop and look around: the diagram view shows every table now
 connected, including the new insurance provider, and the sample data
 is already loaded, so the measures compute immediately.
 
-.. Screenshot to take: the finished veterinary clinic model (after
-   the insurance expansion) open in Power BI Desktop's model view,
-   showing all tables and their relationships, including
-   InsuranceProviders. Save as
-   docs/_static/screenshots/vet-clinic-model-open.png.
+.. figure:: /_static/screenshots/vet-clinic-model-open.png
+   :alt: The veterinary clinic data model open in Power BI Desktop's model view. Patients, Veterinarians, and Services each connect into the hidden Visits fact table, InsuranceProviders connects to Visits by insurance_provider_id, and the Calendar table connects by date. A Clinic Measures table lists Total Revenue, Visit Count, Average Visit Cost, and the new insurance measures, Total Claims Submitted, Total Covered Amount, and Insurance Reimbursement Rate among them.
 
-.. image:: /_static/screenshots/vet-clinic-model-open.png
-   :alt: The veterinary clinic data model open in Power BI Desktop's model view, showing Patients, Veterinarians, Services, and InsuranceProviders all connected to the Visits fact table, with the Calendar table connected by visit date.
+   The expanded veterinary clinic model, with InsuranceProviders now
+   connected alongside the original tables.
 
 Where to go next
 --------------------
