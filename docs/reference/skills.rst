@@ -1,5 +1,5 @@
-Skills
-======
+Reference
+============
 
 pbip-model-forge is a Claude Code skill pair, not a command-line tool: everything
 happens through two slash commands typed directly into a Claude Code conversation.

@@ -40,9 +40,9 @@ directly.
    :maxdepth: 1
 
    tutorials/getting-started
+   how-to/build-a-model-from-a-prompt
    how-to/build-a-line-and-clustered-column-chart
    how-to/build-a-drill-down-matrix
    reference/skills
-   explanation/ontology-basics
-   explanation/expanding-an-ontology
+   topic-guides
    contributing
