@@ -6,10 +6,31 @@ conversation, get back a working Power BI data model, then grow that
 model by describing what it is missing. It takes about ten minutes.
 
 You will need Windows and Power BI Desktop, which is free to install,
-to open the result and look around; nothing else needs installing on
-your side.
+to open the result and look around.
 
-1. Build your first model
+1. Set up
+-------------
+
+Clone the repository, then install ``tmdl-preflight`` from its own
+folder; it is the separate validation tool every generated model is
+gated on, not something bundled here:
+
+::
+
+    git clone https://github.com/c-kapsalis/pbip-model-forge.git
+    git clone https://github.com/c-kapsalis/tmdl-preflight.git
+    pip install -e ./tmdl-preflight
+
+Confirm it is on the path:
+
+::
+
+    tmdl-preflight --version
+
+Open a Claude Code session inside the ``pbip-model-forge`` folder; the
+rest of this tutorial happens entirely in that conversation.
+
+2. Build your first model
 ------------------------------
 
 In a Claude Code session in this repository, describe a domain in your
@@ -42,7 +63,7 @@ by their relationships, patients, vets, and services each feeding into
 visits, visits feeding into the calendar by date. Alongside it: the
 model checked out clean, no errors, no warnings.
 
-2. Add something to it
+3. Add something to it
 ---------------------------
 
 Describe what is missing the same way, in the same conversation:
@@ -70,7 +91,7 @@ after the first pass, and comes back clean: still no errors, still no
 warnings. Nothing about the original model, the patients, the vets,
 the services, needed to change for the new entity to fit.
 
-3. Open it in Power BI Desktop
+4. Open it in Power BI Desktop
 -----------------------------------
 
 The skill tells you where the file landed. Open it in Power BI
