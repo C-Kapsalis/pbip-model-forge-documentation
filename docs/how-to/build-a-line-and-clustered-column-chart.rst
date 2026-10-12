@@ -20,7 +20,14 @@ starting.
    title.
 
 .. figure:: /_static/screenshots/hospital-line-and-column-chart.png
-   :alt: A line and clustered column chart titled "Total Billed Revenue and Avg Billed per Patient by Date." Monthly columns for Total Billed Revenue range from about $3K to $42K across 2024 and into mid-2025, with a July 2024 peak of $42K; a line for Avg Billed per Patient tracks a much smaller range, mostly under $10K, moving independently of the columns.
+   :alt: A line and clustered column chart titled "Total Billed Revenue and Avg Billed per Patient by Date." One column per admission date for Total Billed Revenue, from about $3K to $42K across 2024 and into mid-2025, with the tallest column in late June 2024. The Avg Billed per Patient line runs through the top of every column, because each admission date in the sample has one encounter and one patient.
 
-   Total Billed Revenue and Avg Billed per Patient, plotted by month
-   across the hospital's encounter history.
+   Total Billed Revenue and Avg Billed per Patient, plotted by admission
+   date across the hospital's encounter history.
+
+Each admission date in the sample data has a single patient, so on a daily
+axis the average equals the revenue. For a view where the two differ, drag
+*Month Start* from the Calendar table to the **X-axis** instead of *Date*:
+in January and March 2024 two patients were billed, so the line sits below
+the column ($10,850.00 against $21,700.00, and $6,950.00 against
+$13,900.00).
