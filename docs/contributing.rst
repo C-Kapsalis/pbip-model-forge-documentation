@@ -11,14 +11,19 @@ the repository root; this page covers the concepts behind the code instead.
 The pipeline
 ------------
 
-Every model pbip-model-forge produces comes from the same three-step
+Every model pbip-model-forge produces comes from the same four-step
 pipeline, regardless of which skill triggered it.
 
 #. A spec dict describes the model: its tables, columns, sample rows,
    measures, and relationships. This dict is the single source of truth.
+#. `pbip-forge check` judges the spec against the modeling rules in
+   :doc:`reference/check-rules`. No P0 or P1 violations means the model is
+   correct enough to hand off.
 #. `build_pbip(spec, out_dir)` renders every TMDL and JSON file the model
    needs from that dict, including the compressed entered-data blob that
-   physically loads the sample rows.
+   physically loads the sample rows, and the hand-off pack. Every ID is
+   derived from the object's name, so the same spec always yields the same
+   files.
 #. `tmdl-preflight check` gates the result. Zero errors means the model is
    structurally confirmed to open in Power BI Desktop.
 
@@ -40,7 +45,8 @@ request against that description to decide which skill to invoke.
   hand; every expansion goes back through the spec dict first.
 
 Both skills share the same invariant: the spec dict is the source of truth,
-and `tmdl-preflight check` is the only thing that gets to call a model valid.
+`pbip-forge check` decides whether the model is correct, and
+`tmdl-preflight check` decides whether it opens.
 
 Entered-data encoding
 ---------------------
@@ -63,8 +69,8 @@ encoder change.
 Extending
 ---------
 
-The three most common ways to extend the builder each touch a different
-layer of the pipeline above.
+The most common ways to extend the builder each touch a different layer of
+the pipeline above.
 
 Add a column type
 ~~~~~~~~~~~~~~~~~
@@ -84,10 +90,18 @@ gets a `ref table` line in `model.tmdl`, and every table gets at least one
 partition. Rebuild the template and run `tmdl-preflight check template`
 afterward.
 
+Add a check rule
+~~~~~~~~~~~~~~~~
+
+Add a `Rule` to the catalog in `src/pbip_model_forge/check.py` with the next
+free `FM` number, a severity for each profile, a rationale and a fix, plus
+the function that detects it. Add a test that trips it from the small good
+spec in `tests/specs.py`, and add the rule to :doc:`reference/check-rules`.
+
 Add or change a skill
 ~~~~~~~~~~~~~~~~~~~~~
 
 Edit the relevant `.claude/skills/<name>/SKILL.md`. Keep the golden rule
 visible in the skill's own instructions: never hand-author TMDL or base64,
 always go through `build_pbip`, and always gate the result on
-`tmdl-preflight`.
+`pbip-forge check` and then `tmdl-preflight`.

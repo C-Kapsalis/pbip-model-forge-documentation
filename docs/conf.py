@@ -7,7 +7,7 @@
 project = 'pbip-model-forge'
 copyright = '2026, Christoforos Kapsalis'
 author = 'Christoforos Kapsalis'
-release = '0.1.0-alpha'
+release = '1.1.0'
 
 extensions = [
     'sphinx.ext.intersphinx',

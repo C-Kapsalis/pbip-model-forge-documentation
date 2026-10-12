@@ -29,11 +29,14 @@ against the production warehouse. That model, plus a plain-language
 summary of what it contains, is the spec you hand to your data team,
 in place of a ticket they have to reverse-engineer.
 
-Every model these skills produce is checked against ``tmdl-preflight``,
-a validation tool that confirms a model is structurally sound before
-you ever see it. It needs to be installed once, alongside this
-project; from there, checking a model is automatic and happens inside
-the conversation. You never run it yourself or read its output
+Every model these skills produce passes two checks before you ever see
+it. ``pbip-forge check``, part of this project, confirms the model
+follows modeling best practice: keys that line up, measures counted at
+the right grain, every measure formatted and described.
+``tmdl-preflight``, a separate validation tool installed once alongside
+this project, confirms the files are structurally sound enough for
+Power BI Desktop to open. Both run automatically inside the
+conversation; you never run them yourself or read their output
 directly.
 
 .. toctree::
@@ -41,6 +44,6 @@ directly.
 
    tutorials/getting-started
    how-to-guides
-   reference/skills
+   reference
    topic-guides
    contributing
