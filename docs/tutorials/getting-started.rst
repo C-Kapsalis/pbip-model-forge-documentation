@@ -11,20 +11,21 @@ to open the result and look around.
 1. Set up
 -------------
 
-Clone the repository, then install ``tmdl-preflight`` from its own
-folder; it is the separate validation tool every generated model is
-gated on, not something bundled here:
+Clone the repository and install it, which adds the ``pbip-forge``
+command, then install ``tmdl-preflight``, the separate validation tool
+every generated model is gated on:
 
 ::
 
-    git clone https://github.com/c-kapsalis/pbip-model-forge.git
-    git clone https://github.com/c-kapsalis/tmdl-preflight.git
-    pip install -e ./tmdl-preflight
+    git clone https://github.com/C-Kapsalis/pbip-model-forge.git
+    pip install -e ./pbip-model-forge
+    pip install git+https://github.com/C-Kapsalis/tmdl-preflight.git
 
-Confirm it is on the path:
+Confirm both are on the path:
 
 ::
 
+    pbip-forge --version
     tmdl-preflight --version
 
 Open a Claude Code session inside the ``pbip-model-forge`` folder; the
@@ -42,7 +43,8 @@ own words:
 
 The ``create-sample-model`` skill takes it from there: it designs a
 star schema for the domain, invents believable sample data, builds the
-``.pbip`` file, and confirms it opens cleanly before showing it to you.
+``.pbip`` file, checks it against the modeling rules, and confirms it
+opens cleanly before showing it to you.
 For a veterinary clinic, what comes back is a model with:
 
 - **Patients** (8 rows): each animal's name, species, breed, and
@@ -55,13 +57,14 @@ For a veterinary clinic, what comes back is a model with:
   visit, tying a patient to a vet and a service on a date, spanning
   early 2024 through late 2025.
 - A calendar table, and a measures table with **Total Revenue**,
-  **Visit Count**, **Unique Patients**, **Average Visit Cost**, and
-  **Total Visit Hours** already defined.
+  **Visits #**, **Patients #**, **Avg Cost per Visit**, and **Total
+  Visit Hours** already defined, each formatted and described.
 
-The skill shows the shape of the model as a diagram, tables connected
-by their relationships, patients, vets, and services each feeding into
-visits, visits feeding into the calendar by date. Alongside it: the
-model checked out clean, no errors, no warnings.
+The skill shows the shape of the model as a diagram, taken from the
+generated ``handoff/SPEC.md``: patients, vets, and services each feeding
+into visits, visits feeding into the calendar by date. Alongside it: the
+model checked out clean, no P0 or P1 violations from ``pbip-forge
+check`` and no errors from tmdl-preflight.
 
 3. Add something to it
 ---------------------------
@@ -82,13 +85,13 @@ starting over. For the veterinary clinic, it added:
 - Two new fields on **Visits**: how much was claimed per visit, and
   how much of that was actually covered, each visit now tied to one
   insurer or to self-pay.
-- Five new measures: **Total Claims Submitted**, **Total Covered
-  Amount**, **Out-of-Pocket Revenue**, **Insurance Reimbursement
-  Rate**, and **% Visits Insured**.
+- Six new measures: **Total Claims Submitted**, **Total Covered
+  Amount**, **Total Out-of-Pocket Revenue**, **Insurance Reimbursement
+  %**, **Insured Visits #**, and **Insured Visits %**.
 
 The model is checked again after the change, the same way it was
-after the first pass, and comes back clean: still no errors, still no
-warnings. Nothing about the original model, the patients, the vets,
+after the first pass, and comes back clean: still no P0 or P1
+violations, still no errors. Nothing about the original model, the patients, the vets,
 the services, needed to change for the new entity to fit.
 
 4. Open it in Power BI Desktop
@@ -100,7 +103,7 @@ connected, including the new insurance provider, and the sample data
 is already loaded, so the measures compute immediately.
 
 .. figure:: /_static/screenshots/vet-clinic-model-open.png
-   :alt: The veterinary clinic data model open in Power BI Desktop's model view. Patients, Veterinarians, and Services each connect into the hidden Visits fact table, InsuranceProviders connects to Visits by insurance_provider_id, and the Calendar table connects by date. A Clinic Measures table lists Total Revenue, Visit Count, Average Visit Cost, and the new insurance measures, Total Claims Submitted, Total Covered Amount, and Insurance Reimbursement Rate among them.
+   :alt: The veterinary clinic data model open in Power BI Desktop's model view. Patients, Veterinarians, and Services each connect into the hidden Visits fact table, InsuranceProviders connects to Visits by insurance_provider_id, and the Calendar table connects by date. A Clinic Measures table lists Total Revenue, Visits #, Avg Cost per Visit, and the new insurance measures, Total Claims Submitted, Total Covered Amount, and Insurance Reimbursement % among them.
 
    The expanded veterinary clinic model, with InsuranceProviders now
    connected alongside the original tables.
@@ -115,5 +118,6 @@ Where to go next
   and :doc:`../how-to/build-a-drill-down-matrix`
 - What the two skills are and what each one takes and gives back:
   :doc:`../reference/skills`
+- Every rule a model is checked against: :doc:`../reference/check-rules`
 - What an ontology means here, and how a new one gets fitted into an
   existing model: :doc:`../topic-guides`

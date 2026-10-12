@@ -12,8 +12,11 @@ Ask for a model, describing the business domain in your own words:
 
 That builds a working ``.pbip`` file: a hidden fact table at the
 right grain, two to four dimension tables, a calendar, a measures
-table, and believable sample rows already loaded, confirmed to open
-cleanly before you see it.
+table, and believable sample rows already loaded, checked against the
+modeling rules and confirmed to open cleanly before you see it. Next to
+the model sits a hand-off pack, ``handoff/SPEC.md`` and
+``handoff/manifest.json``, describing every table, relationship and
+measure; see :doc:`/reference/handoff-pack`.
 
 Then grow it, describing what is missing the same way:
 
@@ -42,7 +45,7 @@ The result, opened in Power BI Desktop
 --------------------------------------------
 
 .. figure:: /_static/screenshots/hospital-model-open.png
-   :alt: The generated hospital data model open in Power BI Desktop's model view. Departments, Physicians, Diagnoses, and Patients each connect into the hidden Encounters fact table; Patients also connects to InsuranceCompanies; a Calendar table connects by date. A Clinic Measures table lists Total Billed Revenue, Avg Billed per Encounter, Avg Billed per Patient, Avg Length of Stay, Encounters #, Insured Patients #, Revenue Share by Insurer, and Total Patient Days.
+   :alt: The generated hospital data model open in Power BI Desktop's model view. Departments, Physicians, Diagnoses, and Patients each connect into the hidden Encounters fact table; Patients also connects to InsuranceCompanies; a Calendar table connects by date. A Clinic Measures table lists Total Billed Revenue, Avg Billed per Encounter, Avg Billed per Patient, Avg Length of Stay, Encounters #, Patients #, Insurer Revenue Share %, and Total Patient Days.
 
    The generated hospital model, every table already connected and the
    insurance company entity in place.
