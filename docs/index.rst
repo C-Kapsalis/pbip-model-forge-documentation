@@ -1,69 +1,82 @@
 pbip-model-forge
 =================
 
-Describe a business domain in plain language, and pbip-model-forge
-turns it into a real, working Power BI data model: a ``.pbip`` file
-with sample data already loaded, ready to open directly in Power BI
-Desktop. There is no modeling view to learn and no data model syntax
-to write.
+pbip-model-forge turns a description of a data model into a Power BI
+project you can open and an engineer can build from: a ``.pbip`` folder
+with the tables, relationships and measures in place and sample data
+already loaded, plus a hand-off pack that documents all of it. These
+pages cover version 1.2.1.
 
 The problem this solves
 ---------------------------
 
 A domain expert who wants a new data model today has one real option:
-describe it to a data team and wait. The request joins a ticket
-queue, gets interpreted secondhand, and comes back days or weeks
-later, sometimes shaped nothing like what was actually meant.
+describe it to a data team and wait. The request joins a ticket queue,
+gets interpreted secondhand, and comes back days or weeks later, sometimes
+shaped nothing like what was meant.
 
-pbip-model-forge collapses that first pass into a conversation.
-Describe the domain, and two Claude Code skills design a model,
-populate it with believable sample data, and confirm it opens cleanly,
-all before a data engineer ever picks up the ticket.
+pbip-model-forge moves that first pass to the person who knows the
+domain. You describe the model as a spec, either by writing a JSON file
+yourself or by asking one of two Claude Code skills to write it for you
+in conversation. ``pbip-forge`` checks the spec and builds the model from
+it.
 
-What comes back is not a finished report; the report stays
-intentionally blank. What matters is the model underneath it: the
-tables, the relationships, the measures, populated with sample data
-so the numbers actually compute and a stakeholder can see the real
-shape of an idea before an engineer spends a sprint building it
-against the production warehouse. That model, plus a plain-language
-summary of what it contains, is the spec you hand to your data team,
-in place of a ticket they have to reverse-engineer.
+What comes back is not a finished report. The report holds one empty
+page, ``Page 1``, and no visuals. What matters is the model underneath
+it: the tables, the relationships and the measures, loaded with sample
+data so the numbers compute and a stakeholder can see the shape of an
+idea before an engineer spends a sprint building it against the
+production warehouse. That model, with its hand-off pack (a diagram, a
+data dictionary and every measure's DAX), is the spec you hand to your
+data team in place of a ticket they have to reverse-engineer.
 
-Every model these skills produce passes two checks before you ever see
-it. ``pbip-forge check``, part of this project, confirms the model
-follows modeling best practice: keys that line up, measures counted at
-the right grain, every measure formatted and described.
-``tmdl-preflight``, a separate validation tool installed once alongside
-this project, confirms the files are structurally sound enough for
-Power BI Desktop to open. Both run automatically inside the
-conversation; you never run them yourself or read their output
-directly. One detail of the second check is a property of the tool
-rather than of your model: the blank report folder the builder writes is
-a two-file stub, and two of tmdl-preflight's report rules read it as an
-error. :doc:`reference/cli` gives both gate lines and the exact
-commands.
+Two gates
+-----------
+
+A model is ready to hand off when it passes two checks, in this order:
+
+#. ``pbip-forge check``, part of this project, judges the spec against 22
+   modeling rules: keys that line up, measures counted at the right grain,
+   every measure formatted and described. It must report 0 P0 and 0 P1.
+#. ``tmdl-preflight``, a separate tool you install alongside it, checks the
+   files the build writes. It must report 0 errors.
+
+Since 1.2.1 the report that ``build`` writes passes tmdl-preflight too,
+so the second gate runs on the whole built folder. The gates prove the
+files pass both tools' rules; opening the model in Power BI Desktop, on
+Windows, is a step you take yourself.
+
+Where to start
+----------------
+
+- Install the two tools: :doc:`how-to/install`.
+- Write a spec yourself and hand the result to engineers:
+  :doc:`how-to/build-a-model-from-a-spec`.
+- Let Claude Code write the spec in conversation:
+  :doc:`tutorials/getting-started`.
 
 The command line
------------------
+------------------
 
-The skills are the way in, but ``pbip-forge`` is a command-line tool
-with eight commands, and five of them work on a project that already
-exists on disk:
+``pbip-forge`` has eight commands. Three work on a spec:
 
-- ``check``, ``build`` and ``rules`` work on a spec: they judge a model
-  against the 22 modeling rules, write the whole PBIP from a spec, and
-  print the rule catalog.
+- ``check`` judges a spec against the 22 modeling rules.
+- ``build`` writes the whole PBIP and the hand-off pack from a spec.
+- ``rules`` prints the rule catalog.
+
+Five work on a PBIP project that already exists:
+
 - ``table dump`` prints the rows of an encoded "Enter data" table.
-- ``report blank`` creates a blank report bound to a model that already
-  exists, the report a Fabric Git sync or a deployment pipeline needs.
-- ``clone-report`` copies a finished report folder under a new name and
-  a new identity.
-- ``f-filters`` fills the ``f-<Category>`` gate measures and the
-  ``f-All`` gate lines of a model built on the selector pattern.
+- ``report blank`` creates a report with one empty page for a model that
+  has none, the report a Fabric Git sync or a deployment pipeline needs.
+- ``clone-report`` copies a report folder under a new name and a new
+  identity.
+- ``f-filters`` fills the ``f-<Category>`` measures and the ``f-All`` gate
+  lines of a model built on the selector pattern.
 - ``i-filters`` regenerates the ``i-Applied Filters`` caption measure.
 
-:doc:`reference/cli` is the reference: what each command does, the flags
-that matter, and what the tool prints.
+:doc:`reference/cli` covers the spec commands and the gates;
+:doc:`reference/project-commands` covers the other five.
 
 .. toctree::
    :maxdepth: 1
