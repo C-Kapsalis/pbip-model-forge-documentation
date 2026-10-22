@@ -19,7 +19,9 @@ The spec is either a JSON file or a Python file that defines a module-level
     pbip-forge check spec.json --format json
     pbip-forge rules
 
-The command prints one line per violation, its fix, and a summary:
+The command prints one line per violation, its fix, and a summary. A spec
+whose ratio counts a dimension table instead of the fact's foreign key
+comes back like this:
 
 ::
 
@@ -27,10 +29,20 @@ The command prints one line per violation, its fix, and a summary:
         fix: Count from the fact instead: DISTINCTCOUNT(Encounters[patient_id]).
     pbip-forge check (handoff): 0 P0, 1 P1, 0 P2
 
+A spec that passes prints only the summary line:
+
+::
+
+    pbip-forge check (handoff): 0 P0, 0 P1, 0 P2
+
 It exits with status 1 when any P0 or P1 violation is found, and 0
 otherwise. From Python, ``build_pbip(spec, out_dir, check=True,
 profile="handoff")`` runs the same check and raises ``SpecCheckError``
 without writing anything when it fails.
+
+``check`` is one of eight commands. The other seven — ``build``,
+``rules``, ``table dump``, ``report blank``, ``clone-report``,
+``f-filters`` and ``i-filters`` — are in :doc:`cli`.
 
 Severities and profiles
 -------------------------

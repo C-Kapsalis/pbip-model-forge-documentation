@@ -24,8 +24,12 @@ pipeline, regardless of which skill triggered it.
    physically loads the sample rows, and the hand-off pack. Every ID is
    derived from the object's name, so the same spec always yields the same
    files.
-#. `tmdl-preflight check` gates the result. Zero errors means the model is
-   structurally confirmed to open in Power BI Desktop.
+#. `tmdl-preflight check` gates the result. Zero errors on the model means
+   it is structurally confirmed to open in Power BI Desktop. The blank
+   report folder the builder writes is a two-file stub, and two of
+   tmdl-preflight's report rules (B005 and B007) read that stub as an
+   error, so a whole-project run reports those two findings and the model
+   gate is the same run with `--ignore B005,B007`.
 
 TMDL is always regenerated from the spec dict, never hand-edited, and
 neither skill hand-authors TMDL or base64 directly.
@@ -72,6 +76,13 @@ Extending
 The most common ways to extend the builder each touch a different layer of
 the pipeline above.
 
+The other five commands work on a project that already exists rather than
+on a spec: `table dump` and the entered-data codec, the report scaffolding
+in `report_scaffold.py` (`report blank`, `clone-report`), and the two
+selector-pattern repairers in `f_filters.py` and `i_filters.py`. They are
+documented, with their options and their console output, in
+:doc:`reference/cli`.
+
 Add a column type
 ~~~~~~~~~~~~~~~~~
 
@@ -87,8 +98,10 @@ Add a new generator
 Add a `render_*` function in `build_model.py` and wire it into `build_pbip`.
 Keep two invariants regardless of what the generator produces: every table
 gets a `ref table` line in `model.tmdl`, and every table gets at least one
-partition. Rebuild the template and run `tmdl-preflight check template`
-afterward.
+partition. Rebuild the template and run `tmdl-preflight check template
+--ignore B005,B007` afterward: the two ignored rules are the report rules
+that read the template's blank report stub, and every other rule must
+pass.
 
 Add a check rule
 ~~~~~~~~~~~~~~~~

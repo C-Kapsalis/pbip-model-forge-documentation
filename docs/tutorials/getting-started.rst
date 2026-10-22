@@ -26,7 +26,10 @@ Confirm both are on the path:
 ::
 
     pbip-forge --version
+    pbip-forge 1.2.0
+
     tmdl-preflight --version
+    tmdl-preflight 1.2.0
 
 Open a Claude Code session inside the ``pbip-model-forge`` folder; the
 rest of this tutorial happens entirely in that conversation.
@@ -64,7 +67,32 @@ The skill shows the shape of the model as a diagram, taken from the
 generated ``handoff/SPEC.md``: patients, vets, and services each feeding
 into visits, visits feeding into the calendar by date. Alongside it: the
 model checked out clean, no P0 or P1 violations from ``pbip-forge
-check`` and no errors from tmdl-preflight.
+check`` and no tmdl-preflight errors on the model.
+
+These are the commands behind the two gates, and this is what they print
+for the clinic model:
+
+::
+
+    pbip-forge check scripts/build_vet_clinic.py --profile handoff
+    pbip-forge check (handoff): 0 P0, 0 P1, 0 P2
+
+    pbip-forge build scripts/build_vet_clinic.py out/VetClinic --check --profile handoff
+    Built PBIP: /path/to/out/VetClinic/VetClinic.pbip
+
+    tmdl-preflight check out/VetClinic
+    VetClinic.Report  B007 error: VetClinic.Report: Missing report.json (neither at root nor in definition/)
+    VetClinic.Report/definition/pages/pages.json  B005 error: definition/pages/pages.json is missing; the report has no pages metadata. Save the report again from Power BI Desktop (PBIR format). [VetClinic.Report]
+    tmdl-preflight: 2 error(s), 0 warning(s), 1 info(s)
+
+    tmdl-preflight check out/VetClinic --ignore B005,B007
+    tmdl-preflight: 0 error(s), 0 warning(s), 1 info(s)
+
+The two errors in the third command are the report rules reading the
+blank report folder the builder writes next to the model: ``B007``,
+missing ``report.json``, and ``B005``, missing
+``definition/pages/pages.json``. The model itself has none, which is what
+the last line shows. :doc:`../reference/cli` has the whole command line.
 
 3. Add something to it
 ---------------------------
@@ -91,7 +119,7 @@ starting over. For the veterinary clinic, it added:
 
 The model is checked again after the change, the same way it was
 after the first pass, and comes back clean: still no P0 or P1
-violations, still no errors. Nothing about the original model, the patients, the vets,
+violations, still no errors on the model. Nothing about the original model, the patients, the vets,
 the services, needed to change for the new entity to fit.
 
 4. Open it in Power BI Desktop
@@ -118,6 +146,8 @@ Where to go next
   and :doc:`../how-to/build-a-drill-down-matrix`
 - What the two skills are and what each one takes and gives back:
   :doc:`../reference/skills`
+- Every command the tool offers, with the flags that matter:
+  :doc:`../reference/cli`
 - Every rule a model is checked against: :doc:`../reference/check-rules`
 - What an ontology means here, and how a new one gets fitted into an
   existing model: :doc:`../topic-guides`

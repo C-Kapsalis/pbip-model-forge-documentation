@@ -37,7 +37,33 @@ the right grain, every measure formatted and described.
 this project, confirms the files are structurally sound enough for
 Power BI Desktop to open. Both run automatically inside the
 conversation; you never run them yourself or read their output
-directly.
+directly. One detail of the second check is a property of the tool
+rather than of your model: the blank report folder the builder writes is
+a two-file stub, and two of tmdl-preflight's report rules read it as an
+error. :doc:`reference/cli` gives both gate lines and the exact
+commands.
+
+The command line
+-----------------
+
+The skills are the way in, but ``pbip-forge`` is a command-line tool
+with eight commands, and five of them work on a project that already
+exists on disk:
+
+- ``check``, ``build`` and ``rules`` work on a spec: they judge a model
+  against the 22 modeling rules, write the whole PBIP from a spec, and
+  print the rule catalog.
+- ``table dump`` prints the rows of an encoded "Enter data" table.
+- ``report blank`` creates a blank report bound to a model that already
+  exists, the report a Fabric Git sync or a deployment pipeline needs.
+- ``clone-report`` copies a finished report folder under a new name and
+  a new identity.
+- ``f-filters`` fills the ``f-<Category>`` gate measures and the
+  ``f-All`` gate lines of a model built on the selector pattern.
+- ``i-filters`` regenerates the ``i-Applied Filters`` caption measure.
+
+:doc:`reference/cli` is the reference: what each command does, the flags
+that matter, and what the tool prints.
 
 .. toctree::
    :maxdepth: 1

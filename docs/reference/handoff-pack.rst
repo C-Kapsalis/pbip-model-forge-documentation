@@ -21,6 +21,23 @@ them byte-identical and a change shows up as a clean diff. Pass
 ``handoff=False`` to ``build_pbip`` (or ``--no-handoff`` to
 ``pbip-forge build``) to skip them.
 
+The build command
+------------------
+
+The hand-off pack is written by ``pbip-forge build``, which takes the spec
+first and the output folder second:
+
+::
+
+    pbip-forge build scripts/build_vet_clinic.py out/VetClinic --check --profile handoff
+    Built PBIP: /path/to/out/VetClinic/VetClinic.pbip
+
+``--check`` judges the spec before anything is written, and a spec with a
+P0 or P1 violation writes nothing at all. ``--profile`` chooses the
+strictness the check runs under: ``mockup`` by default, ``handoff`` for a
+model you are about to hand over. ``--no-handoff`` skips the two files
+this page describes. The whole command line is in :doc:`cli`.
+
 SPEC.md
 ---------
 

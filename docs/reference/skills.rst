@@ -5,9 +5,15 @@ pbip-model-forge is used through a Claude Code skill pair: everything happens
 through two slash commands typed directly into a Claude Code conversation. Each
 command runs two gates internally before you see the result:
 :doc:`pbip-forge check <check-rules>` must report no P0 or P1 violations, and
-then tmdl-preflight must report zero errors. Every model these skills produce
-is therefore both modeled to best practice and confirmed to open cleanly in
-Power BI Desktop.
+then tmdl-preflight must report no errors on the model. Every model these
+skills produce is therefore both modeled to best practice and confirmed to
+open cleanly in Power BI Desktop.
+
+One detail of the second gate belongs to the tool rather than to your model.
+The blank report folder the builder writes next to the model is a two-file
+stub, and two of tmdl-preflight's report rules (B005 and B007) read that
+stub as an error; the semantic model itself has none. Both gate lines are
+in :doc:`cli`.
 
 .. list-table::
    :widths: 20 40 40
@@ -57,8 +63,8 @@ sample data model for a veterinary clinic." What comes back:
   ``handoff/manifest.json``, the same model in machine-readable form. See
   :doc:`handoff-pack`.
 - **Confirmation the model is clean**: no P0 or P1 violations from
-  ``pbip-forge check``, and zero errors from tmdl-preflight, before it is
-  ever shown to you.
+  ``pbip-forge check``, and no tmdl-preflight errors on the model, before
+  it is ever shown to you.
 
 ``/validate-and-expand``
 ----------------------------
@@ -81,7 +87,7 @@ relevant existing entities." What comes back:
   Visits %.
 - **A refreshed hand-off pack and a re-validation**, the same things the
   first build produced, confirming the change fits cleanly: still no P0
-  or P1 violations, still zero errors.
+  or P1 violations, still no errors on the model.
 - **The original tables, untouched.** Nothing about the patients, the
   vets, or the services needed to change for the new entity to fit in
   alongside them.
