@@ -1,27 +1,30 @@
 pbip-forge check rules
 ========================
 
-``pbip-forge check`` judges a model's spec, sample rows included, before any
-file is written. ``tmdl-preflight`` answers "will Power BI Desktop open
-this?"; ``pbip-forge check`` answers "is this a model a data engineer can
-trust?". Both skills run it first and stop until it reports no P0 or P1
+``pbip-forge check`` judges a model's spec, sample rows included, before
+any file is written. ``tmdl-preflight`` checks the files ``build`` writes;
+``pbip-forge check`` checks the model itself: keys that line up, measures
+counted at the right grain, every measure formatted and described. Both
+skills run it first and do not build until it reports no P0 or P1
 violations.
 
 Running it
 ------------
 
-The spec is either a JSON file or a Python file that defines a module-level
-``SPEC`` dict, like the example scripts in the repository:
+The spec is a JSON file or a Python file that defines a module-level
+``SPEC`` dict (:doc:`spec-format`). The first command below runs from
+the root of the tool's repository, on one of its example scripts; the
+second runs on the spec from :doc:`../how-to/build-a-model-from-a-spec`:
 
 ::
 
     pbip-forge check scripts/build_hospital.py --profile handoff
-    pbip-forge check spec.json --format json
+    pbip-forge check bikeshop-spec.json --format json
     pbip-forge rules
 
-The command prints one line per violation, its fix, and a summary. A spec
-whose ratio counts a dimension table instead of the fact's foreign key
-comes back like this:
+The command prints one line per violation, its fix, and a summary. A
+spec whose ratio counts a dimension table instead of the fact's foreign
+key comes back like this:
 
 ::
 
@@ -35,14 +38,10 @@ A spec that passes prints only the summary line:
 
     pbip-forge check (handoff): 0 P0, 0 P1, 0 P2
 
-It exits with status 1 when any P0 or P1 violation is found, and 0
-otherwise. From Python, ``build_pbip(spec, out_dir, check=True,
-profile="handoff")`` runs the same check and raises ``SpecCheckError``
-without writing anything when it fails.
-
-``check`` is one of eight commands. The other seven — ``build``,
-``rules``, ``table dump``, ``report blank``, ``clone-report``,
-``f-filters`` and ``i-filters`` — are in :doc:`cli`.
+It exits 1 when it finds any P0 or P1 violation, and 0 otherwise. From
+Python, ``build_pbip(spec, out_dir, check=True, profile="handoff")`` runs
+the same check and raises ``SpecCheckError`` without writing anything
+when it fails. :doc:`cli` has every option.
 
 Severities and profiles
 -------------------------
@@ -63,10 +62,14 @@ Severities and profiles
 Two profiles set how strict the documentation and naming rules are:
 
 - ``mockup`` (the default) treats them as advisory (P2), for quick drafts.
-- ``handoff`` makes them P1, for a model you are about to hand to engineers.
+- ``handoff`` makes five of them P1, for a model you are about to hand to
+  engineers: FM016 (measure format), FM017 (measure description), FM018
+  (display folder), FM019 (name and format agree) and FM021 (table
+  description). FM007 (key names match) and FM022 (column description)
+  stay P2 in both profiles.
 
-Structural, data and DAX rules have the same severity in both profiles. The
-gate is the same in both: **0 P0 and 0 P1**.
+The structural, data and DAX rules have the same severity in both
+profiles. The gate is the same in both: **0 P0 and 0 P1**.
 
 Rule catalog
 --------------

@@ -1,33 +1,34 @@
 Skills
 ========
 
-pbip-model-forge is used through a Claude Code skill pair: everything happens
-through two slash commands typed directly into a Claude Code conversation. Each
-command runs two gates internally before you see the result:
-:doc:`pbip-forge check <check-rules>` must report no P0 or P1 violations, and
-then tmdl-preflight must report no errors on the model. Every model these
-skills produce is therefore both modeled to best practice and confirmed to
-open cleanly in Power BI Desktop.
+pbip-model-forge ships two Claude Code skills, in the tool's repository
+under ``.claude/skills``. Open a Claude Code session in a clone of the
+repository (:doc:`../how-to/install`) and call them as slash commands, or
+describe what you want and let Claude Code pick the skill. Each skill
+writes the spec, builds the model and runs both gates before it shows you
+the result: ``pbip-forge check`` must report no P0 or P1 violations
+(:doc:`check-rules`), then ``tmdl-preflight check`` must report no errors
+on the built folder. The skills call the two commands on your ``PATH``,
+so install both tools first.
 
-One detail of the second gate belongs to the tool rather than to your model.
-The blank report folder the builder writes next to the model is a two-file
-stub, and two of tmdl-preflight's report rules (B005 and B007) read that
-stub as an error; the semantic model itself has none. Both gate lines are
-in :doc:`cli`.
+Passing both gates proves the files pass both tools' rules. Opening the
+model in Power BI Desktop is a step you take yourself; the skills do not
+claim it opens.
 
 .. list-table::
    :widths: 20 40 40
    :header-rows: 1
 
-   * - skill
-     - what you give it
-     - what you get back
-   * - `/create-sample-model`
+   * - Skill
+     - What you give it
+     - What you get back
+   * - ``/create-sample-model``
      - a business domain, described in your own words
-     - a working .pbip file, plus its generated SPEC.md: diagram and data dictionary
-   * - `/validate-and-expand`
+     - a PBIP folder with sample data loaded, plus its hand-off pack:
+       ``SPEC.md`` (diagram and data dictionary) and ``manifest.json``
+   * - ``/validate-and-expand``
      - an existing model, plus what you want added or checked
-     - the same model, updated and re-validated, still openable in Power BI Desktop
+     - the same model, rebuilt from the changed spec and checked again
 
 ``/create-sample-model``
 ----------------------------
@@ -56,15 +57,19 @@ sample data model for a veterinary clinic." What comes back:
   stay correct however the report is sliced.
 - **Believable sample rows already loaded** in every table, enough that
   the measures compute to real numbers immediately, spanning a plausible
-  date range (the clinic model's visits ran from early 2024 through late
-  2025).
+  date range (the clinic model's visits run from January 2024 to
+  September 2025). The skill invents the rows.
 - **A hand-off pack** next to the model: ``handoff/SPEC.md``, with a
   diagram of every table and relationship and a data dictionary, and
   ``handoff/manifest.json``, the same model in machine-readable form. See
   :doc:`handoff-pack`.
-- **Confirmation the model is clean**: no P0 or P1 violations from
-  ``pbip-forge check``, and no tmdl-preflight errors on the model, before
-  it is ever shown to you.
+- **Both gate results**: no P0 or P1 violations from ``pbip-forge
+  check``, and no errors from ``tmdl-preflight check`` on the built
+  folder, before it is shown to you.
+
+The repository keeps the clinic model, with the insurance expansion
+below already applied, as ``scripts/build_vet_clinic.py``; a model the
+skill makes for you will differ in its details.
 
 ``/validate-and-expand``
 ----------------------------
@@ -75,7 +80,7 @@ relevant existing entities." What comes back:
 
 - **A new table**, when the request calls for one, at whatever grain
   fits. The veterinary example added an InsuranceProviders table: four
-  real insurers plus a "Self-Pay" entry, each with a plan type and a
+  invented insurers plus a "Self-Pay" entry, each with a plan type and a
   coverage rate.
 - **New fields on the existing fact table**, wired to the new entity: the
   clinic's Visits table gained a foreign key to the insurer, plus how
@@ -96,5 +101,5 @@ Related topics
 --------------
 
 * :doc:`/topic-guides` explains what an ontology means for
-  `/create-sample-model`, and how `/validate-and-expand` fits a new
+  ``/create-sample-model``, and how ``/validate-and-expand`` fits a new
   entity into one that already exists.
